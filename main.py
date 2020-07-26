@@ -27,7 +27,7 @@ def loadThumbnail(image_url):
     img = Image.open(BytesIO(response.content))
     return img
 
-def getStats(video): Return the formated video stats
+def getStats(video): # Return the formated video stats
     header = (f'**{video.title}**' 
             + f' *By: {video.author}*')
     thumbnail = loadThumbnail(video.thumbnail_url)
