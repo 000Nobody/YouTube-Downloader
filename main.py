@@ -80,10 +80,10 @@ if url:
                 with st.spinner(
                  f'Downloading {video.title}... ***Please wait to open any files until the download has finished***'
                 ):
-                    stream.download(filename = 'audio', output_path = 'Downloads')
-                    convert_mp3 = f'ffmpeg -i audio.mp4 {re.sub("[^0-9a-zA-Z]+", "-", video.title)}.mp3'
+                    stream.download(filename = 'audio')
+                    convert_mp3 = f'ffmpeg -i audio.mp4 Downloads/{re.sub("[^0-9a-zA-Z]+", "-", video.title)}.mp3'
                     subprocess.run(convert_mp3, shell = True)
-                    os.remove('audio.mp4')
+                    os.remove('Downloads/audio.mp4')
                 st.success(f'Finished Downloading {video.title}!')
 
         if download_type == 'Video Only (.mp4)':
