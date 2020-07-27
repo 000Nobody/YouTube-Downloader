@@ -27,6 +27,7 @@ def loadThumbnail(image_url):
     img = Image.open(BytesIO(response.content))
     return img
 
+@st.cache
 def getStats(video): # Return the formated video stats
     header = (f'**{video.title}**' 
             + f' *By: {video.author}*')
@@ -52,6 +53,7 @@ if url:
         'Audio Only (.mp3)', 
         'Video Only (.mp4)']
         )
+
         if download_type == 'Video and Audio (.mkv)':
             video_stream = video.streams.filter(type = 'video', subtype = 'mp4').order_by(attribute_name = 'resolution').last()
             audio_stream = video.streams.get_audio_only()
@@ -68,7 +70,12 @@ if url:
                     subprocess.run(convert_mp3, shell = True)
                     os.remove('audio-track.mp4')
                     formatted_title = re.sub("[^0-9a-zA-Z]+", "-", video.title)
-                    merge_audio_video = f'ffmpeg -y -i audio-track.mp3 -r 30 -i video-track.mp4 -filter:a aresample=async=1 -c:a flac -c:v copy Downloads/{formatted_title}.mkv'
+                    merge_audio_video = (
+                                         'ffmpeg -y -i audio-track.mp3 '
+                                         '-r 30 -i video-track.mp4 '
+                                         '-filter:a aresample=async=1 -c:a flac -c:v '
+                                        f'copy Downloads/{formatted_title}.mkv'
+                                          )
                     subprocess.run(merge_audio_video, shell = True)
                     os.remove('audio-track.mp3')
                     os.remove('video-track.mp4')
