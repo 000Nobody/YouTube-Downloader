@@ -67,7 +67,8 @@ if url:
                     convert_mp3 = 'ffmpeg -i audio-track.mp4 audio-track.mp3'
                     subprocess.run(convert_mp3, shell = True)
                     os.remove('audio-track.mp4')
-                    merge_audio_video = f'ffmpeg -y -i audio-track.mp3 -r 30 -i video-track.mp4 -filter:a aresample=async=1 -c:a flac -c:v copy Downloads/{re.sub("[^0-9a-zA-Z]+", "-", video.title)}.mkv'
+                    formatted_title = re.sub("[^0-9a-zA-Z]+", "-", video.title)
+                    merge_audio_video = f'ffmpeg -y -i audio-track.mp3 -r 30 -i video-track.mp4 -filter:a aresample=async=1 -c:a flac -c:v copy Downloads/{formatted_title}.mkv'
                     subprocess.run(merge_audio_video, shell = True)
                     os.remove('audio-track.mp3')
                     os.remove('video-track.mp4')
