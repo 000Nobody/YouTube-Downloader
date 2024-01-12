@@ -1,2 +1,2 @@
 pytube3==9.6.4
-streamlit==0.64.0
+streamlit==1.30.0
